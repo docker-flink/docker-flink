@@ -22,7 +22,7 @@ FROM openjdk:8-jre-alpine
 RUN apk add --no-cache bash libc6-compat snappy 'su-exec>=0.2'
 
 # Configure Flink version
-ENV FLINK_VERSION=1.4.0 \
+ENV FLINK_VERSION=1.4.1 \
     HADOOP_VERSION=28 \
     SCALA_VERSION=2.11
 
@@ -64,6 +64,8 @@ RUN set -ex; \
   apk del .build-deps; \
   \
   chown -R flink:flink .;
+
+RUN cp $FLINK_HOME/opt/flink-s3-fs-hadoop-$FLINK_VERSION.jar $FLINK_HOME/lib
 
 # Configure container
 COPY docker-entrypoint.sh /

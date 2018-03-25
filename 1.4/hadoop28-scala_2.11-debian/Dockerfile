@@ -37,7 +37,7 @@ RUN set -ex; \
   gosu nobody true
 
 # Configure Flink version
-ENV FLINK_VERSION=1.4.0 \
+ENV FLINK_VERSION=1.4.1 \
     HADOOP_VERSION=28 \
     SCALA_VERSION=2.11
 
@@ -70,6 +70,8 @@ RUN set -ex; \
   rm flink.tgz; \
   \
   chown -R flink:flink .;
+
+RUN cp $FLINK_HOME/opt/flink-s3-fs-hadoop-$FLINK_VERSION.jar $FLINK_HOME/lib
 
 # Configure container
 COPY docker-entrypoint.sh /
