@@ -72,6 +72,7 @@ RUN set -ex; \
   chown -R flink:flink .;
 
 RUN cp $FLINK_HOME/opt/flink-s3-fs-hadoop-$FLINK_VERSION.jar $FLINK_HOME/lib
+COPY lib/* lib/
 
 # Configure container
 COPY docker-entrypoint.sh /
