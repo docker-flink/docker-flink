@@ -82,6 +82,8 @@ echo >&2 " done."
 
 mkdir "$flink_release"
 
+mkdir -p "$flink_release/lib"
+
 echo -n >&2 "Generating Dockerfiles..."
 for source_variant in "${source_variants[@]}"; do
     for hadoop_variant in "${hadoop_variants[@]}"; do
