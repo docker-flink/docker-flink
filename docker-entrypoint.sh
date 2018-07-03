@@ -40,7 +40,7 @@ inject_config_overrides() {
     # Find and replace existing config
     sed -i -e "s/jobmanager.rpc.address: localhost/jobmanager.rpc.address: ${JOB_MANAGER_RPC_ADDRESS}/g" "$FLINK_HOME/conf/flink-conf.yaml"
     sed -i -e "s/jobmanager.rpc.port: 6123/jobmanager.rpc.port: ${JOB_MANAGER_RPC_PORT}/g" "$FLINK_HOME/conf/flink-conf.yaml"
-    sed -i -e "s/jobmanager.web.port: 8081/jobmanager.web.port: ${JOB_MANAGER_WEB_PORT}/g" "$FLINK_HOME/conf/flink-conf.yaml"
+    sed -i -e "s/rest.port: 8081/rest.port: ${JOB_MANAGER_WEB_PORT}/g" "$FLINK_HOME/conf/flink-conf.yaml"
     sed -i -e "s/taskmanager.numberOfTaskSlots: 1/taskmanager.numberOfTaskSlots: $TASK_MANAGER_NUMBER_OF_TASK_SLOTS/g" "$FLINK_HOME/conf/flink-conf.yaml"
     # Inject new previously unspecified config
     echo "blob.server.port: ${BLOB_SERVER_PORT}" >> "$FLINK_HOME/conf/flink-conf.yaml"
@@ -62,6 +62,7 @@ elif [ "$1" = "taskmanager" ]; then
 elif [ "$1" = "local" ]; then
     echo "Starting local cluster"
     inject_config_overrides
+    $(drop_privs_cmd) flink "$FLINK_HOME/bin/taskmanager.sh" start
     exec $(drop_privs_cmd) flink "$FLINK_HOME/bin/jobmanager.sh" start-foreground local
 fi
 
