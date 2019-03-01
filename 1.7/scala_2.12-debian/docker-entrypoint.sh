@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ###############################################################################
 #  Licensed to the Apache Software Foundation (ASF) under one
@@ -20,6 +20,9 @@
 
 # If unspecified, the hostname of the container is taken as the JobManager address
 JOB_MANAGER_RPC_ADDRESS=${JOB_MANAGER_RPC_ADDRESS:-$(hostname -f)}
+
+ARGS=("${@:2}")
+echo "docker-entrypoint.sh run '$1' with args: "${ARGS[@]}
 
 drop_privs_cmd() {
     if [ $(id -u) != 0 ]; then
@@ -56,7 +59,7 @@ elif [ "$1" = "taskmanager" ]; then
 
     echo "Starting Task Manager"
     echo "config file: " && grep '^[^\n#]' "$FLINK_HOME/conf/flink-conf.yaml"
-    exec $(drop_privs_cmd) "$FLINK_HOME/bin/taskmanager.sh" start-foreground
+    exec $(drop_privs_cmd) "$FLINK_HOME/bin/taskmanager.sh" start-foreground "${ARGS[@]}"
 fi
 
 exec "$@"
