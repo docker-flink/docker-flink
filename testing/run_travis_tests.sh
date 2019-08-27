@@ -12,14 +12,12 @@ fi
 BRANCH="$TRAVIS_BRANCH"
 
 if [ -n "$IS_PULL_REQUEST" ]; then
-  changed_files="$(git diff --name-only $TRAVIS_BRANCH...HEAD)"
+  changed_files="$(git diff --name-only $BRANCH...HEAD)"
   if echo "${changed_files}" | grep -q '^[0-9]\+\.[0-9]\+/'; then
-    echo >&2 'error: generated files in x.y/ directories should not be modified.'
+    echo >&2 'error: generated files in x.y/ dirs should not be modified.'
     exit 1
   fi
 fi
-
-exit 0
 
 if [ -z "$IS_PULL_REQUEST" ] && [ "$BRANCH" = "master" ]; then
   # Test all images on master
