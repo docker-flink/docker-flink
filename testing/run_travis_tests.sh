@@ -13,7 +13,7 @@ BRANCH="$TRAVIS_BRANCH"
 
 if [ -n "$IS_PULL_REQUEST" ]; then
   changed_files="$(git diff --name-only $TRAVIS_BRANCH...HEAD)"
-  if echo "${changed_files}" | grep -q -e '^\d\+\.\d\+/'; then
+  if echo "${changed_files}" | grep -q '^[0-9]\+\.[0-9]\+/'; then
     echo >&2 'Generated files in x.y/ directories should not be modified.'
     exit 1
   fi
