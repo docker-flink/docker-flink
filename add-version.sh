@@ -67,17 +67,18 @@ gpg_key=
 # fi
 
 # No real need to cull old versions
-if [ "$flink_version" = "1.8.0" ]; then
-    gpg_key="F2A67A8047499BBB3908D17AA8F4FD97121D7293"
-elif [ "$flink_version" = "1.8.1" ]; then
-    gpg_key="8FEA1EE9D0048C0CCC70B7573211B0703B79EA0E"
-elif [ "$flink_version" = "1.8.2" ]; then
-    gpg_key="E2C45417BED5C104154F341085BACB5AEFAE3202"
-elif [ "$flink_version" = "1.9.0" ]; then
-    gpg_key="1C1E2394D3194E1944613488F320986D35C33D6A"
-else
-    error "Missing GPG key ID for this release"
-fi
+case "$flink_version" in
+   "1.8.0")
+     gpg_key="F2A67A8047499BBB3908D17AA8F4FD97121D7293" ;;
+   "1.8.1")
+     gpg_key="8FEA1EE9D0048C0CCC70B7573211B0703B79EA0E" ;;
+   "1.8.2"|"1.9.1")
+     gpg_key="E2C45417BED5C104154F341085BACB5AEFAE3202" ;;
+   "1.9.0")
+     gpg_key="1C1E2394D3194E1944613488F320986D35C33D6A" ;;
+   *)
+     error "Missing GPG key ID for this release" ;;
+esac
 
 if [ -d "$flink_release" ]; then
     error "Directory $flink_release already exists; delete before continuing"
