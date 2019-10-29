@@ -60,6 +60,15 @@ elif [ "$1" = "jobmanager" ]; then
         echo "query.server.port: 6125" >> "${CONF_FILE}"
     fi
 
+    if [ -n "${JOBMANAGER_CONTAINER_MEMORY_LIMIT}" ]; then
+      JOBMANAGER_HEAP_SIZE="$((JOBMANAGER_CONTAINER_MEMORY_LIMIT*80/100))m"
+      if grep -E "^jobmanager\.heap\.size:.*" "${CONF_FILE}" > /dev/null; then
+          sed -i -e "s/^jobmanager\.heap\.size:.*/jobmanager.heap.size: ${JOBMANAGER_HEAP_SIZE}/g" "${CONF_FILE}"
+      else
+          echo "jobmanager.heap.size: ${JOBMANAGER_HEAP_SIZE}" >> "${CONF_FILE}"
+      fi
+    fi
+
     if [ -n "${FLINK_PROPERTIES}" ]; then
         echo "${FLINK_PROPERTIES}" >> "${CONF_FILE}"
     fi
@@ -94,6 +103,15 @@ elif [ "$1" = "taskmanager" ]; then
         sed -i -e "s/query\.server\.port:.*/query.server.port: 6125/g" "${CONF_FILE}"
     else
         echo "query.server.port: 6125" >> "${CONF_FILE}"
+    fi
+
+    if [ -n "${TASKMANAGER_CONTAINER_MEMORY_LIMIT}" ]; then
+      TASKMANAGER_HEAP_SIZE="$((TASKMANAGER_CONTAINER_MEMORY_LIMIT*80/100))m"
+      if grep -E "^taskmanager\.heap\.size:.*" "${CONF_FILE}" > /dev/null; then
+          sed -i -e "s/^taskmanager\.heap\.size:.*/taskmanager.heap.size: ${TASKMANAGER_HEAP_SIZE}/g" "${CONF_FILE}"
+      else
+          echo "taskmanager.heap.size: ${TASKMANAGER_HEAP_SIZE}" >> "${CONF_FILE}"
+      fi
     fi
 
     if [ -n "${FLINK_PROPERTIES}" ]; then
