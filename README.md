@@ -1,5 +1,7 @@
-docker-flink
-============
+MOVED: docker-flink
+===================
+
+### This repo has moved to [apache/flink-docker](https://github.com/apache/flink-docker) and will receive no further updates.
 
 [![Build Status](https://travis-ci.org/docker-flink/docker-flink.svg?branch=master)](https://travis-ci.org/docker-flink/docker-flink)
 
